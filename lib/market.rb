@@ -23,10 +23,15 @@ class Market
     sellers = []
     @vendors.each do |vendor|
       # binding.pry
-      if vendor.check_stock(produce) > 0 
+      if vendor.check_stock(produce) > 0
         sellers << vendor
       end
     end
     sellers
+  end
+
+  def sorted_item_list
+    
+
   end
 end
