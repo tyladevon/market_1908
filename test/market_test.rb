@@ -8,10 +8,16 @@ class MarketTest < Minitest::Test
 
   def setup
     @market = Market.new("South Pearl Street Farmers Market")
+    @vendor_1 = Vendor.new("Rocky Mountain Fresh")
+    @vendor_2 = Vendor.new("Ba-Nom-a-Nom")
+    @vendor_3 = Vendor.new("Palisade Peach Shack")
   end
 
   def test_it_exists
     assert_instance_of Market, @market
+    assert_instance_of Vendor, @vendor_1
+    assert_instance_of Vendor, @vendor_2
+    assert_instance_of Vendor, @vendor_3
   end
 
   def test_initialize
@@ -19,28 +25,27 @@ class MarketTest < Minitest::Test
     assert_equal [], @market.vendors
   end
 
-  def test_case_name
-    vendor_1 = Vendor.new("Rocky Mountain Fresh")
-    assert_instance_of Vendor, vendor_1
+  def test_add_vendor
+    @vendor_1.stock("Peaches", 35)
+    @vendor_1.stock("Tomatoes", 7)
 
-    vendor_1.stock("Peaches", 35)
-    vendor_1.stock("Tomatoes", 7)
+    @vendor_2.stock("Banana Nice Cream", 50)
+    @vendor_2.stock("Peach-Raspberry Nice Cream", 25)
 
-    vendor_2 = Vendor.new("Ba-Nom-a-Nom")
-    assert_instance_of Vendor, vendor_2
+    @vendor_3.stock("Peaches", 65)
 
-    vendor_2.stock("Banana Nice Cream", 50)
-    vendor_2.stock("Peach-Raspberry Nice Cream", 25)
+    @market.add_vendor(@vendor_1)
+    @market.add_vendor(@vendor_2)
+    @market.add_vendor(@vendor_3)
+    assert_equal [@vendor_1, @vendor_2, @vendor_3], @market.vendors
+  end
 
-    vendor_3 = Vendor.new("Palisade Peach Shack")
-    assert_instance_of Vendor, vendor_3
+  def test_vendor_names
+    @market.add_vendor(@vendor_1)
+    @market.add_vendor(@vendor_2)
+    @market.add_vendor(@vendor_3)
 
-    vendor_3.stock("Peaches", 65)
-
-    @market.add_vendor(vendor_1)
-    @market.add_vendor(vendor_2)
-    @market.add_vendor(vendor_3)
-    assert_equal [vendor_1, vendor_2, vendor_3], @market.vendors
+    assert_equal ["Rocky Mountain Fresh", "Ba-Nom-a-Nom", "Palisade Peach Shack"], @market.vendor_names
   end
 
 end
